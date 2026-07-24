@@ -66,6 +66,7 @@ export interface UiStrings {
     time: string;
     reset: string;
     idle: string;
+    winTitle: string;
     win: string;
     lost: string;
   };
