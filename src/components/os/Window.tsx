@@ -7,7 +7,7 @@ import { useT } from '../../i18n';
 import { useIsMobile } from '../../hooks/useMediaQuery';
 import { useViewportSize } from '../../hooks/useViewportSize';
 import { useBeep } from '../../hooks/useBeep';
-import { clampDragPosition } from '../../store/windowGeometry';
+import { clampDragPosition, computeWindowGeometry } from '../../store/windowGeometry';
 import { ICON_ART } from '../../data/desktop-icons';
 import { getProject } from '../../data/projects';
 import { TASKBAR_HEIGHT } from '../../constants';
@@ -44,19 +44,13 @@ export function Window({ win, paneBackground = 'var(--bevel-face)', children }: 
 
   const availWidth = viewportWidth;
   const availHeight = Math.max(220, viewportHeight - TASKBAR_HEIGHT);
-  let geo: { x: number; y: number; w: number; h: number };
-  if (isMobile || win.maximized) {
-    geo = { x: 0, y: 0, w: availWidth, h: availHeight };
-  } else {
-    const w = Math.min(win.w, availWidth - 24);
-    const h = Math.min(win.h, availHeight - 16);
-    geo = {
-      w,
-      h,
-      x: Math.max(0, Math.min(win.x, availWidth - w)),
-      y: Math.max(0, Math.min(win.y, availHeight - h)),
-    };
-  }
+  const geo = computeWindowGeometry({
+    isMobile,
+    maximized: win.maximized,
+    rect: { x: win.x, y: win.y, w: win.w, h: win.h },
+    availWidth,
+    availHeight,
+  });
 
   useEffect(() => {
     function onMove(e: MouseEvent) {
