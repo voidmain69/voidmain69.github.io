@@ -1,9 +1,14 @@
 version: 2
 updates:
+  # cooldown withholds a newly published version until it's been out for at least
+  # this many days, so a just-published (and possibly compromised/malicious) release
+  # has time to get caught and pulled before we'd ever install it.
   - package-ecosystem: npm
     directory: /
     schedule:
       interval: weekly
+    cooldown:
+      default-days: 7
     groups:
       dev-dependencies:
         dependency-type: development
@@ -15,3 +20,5 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    cooldown:
+      default-days: 7
