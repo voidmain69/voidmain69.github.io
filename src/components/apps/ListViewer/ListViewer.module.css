@@ -44,3 +44,10 @@
 .rowKey {
   font: 12px var(--font-mono);
 }
+
+/* The fixed 180px key column eats half the width on a narrow phone screen and forces
+ * long values into cramped multi-line wrapping — stack key above value instead. */
+.rowMobile {
+  grid-template-columns: 1fr;
+  gap: 2px;
+}

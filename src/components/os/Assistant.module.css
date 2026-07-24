@@ -3,10 +3,18 @@
   right: 22px;
   bottom: 56px;
   z-index: var(--z-assistant);
-  width: 302px;
+  /* Never wider than the viewport minus its own side margins — on a ~320px-wide
+   * phone a fixed 302px would hang off the left edge and stretch the page. */
+  width: min(302px, calc(100vw - 44px));
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+}
+
+/* More clearance above the taskbar — 56px reads fine on desktop but the bubble+figure
+ * stack is tall, and only 12px of breathing room above the taskbar feels cramped. */
+.rootMobile {
+  bottom: 84px;
 }
 
 .bubble {

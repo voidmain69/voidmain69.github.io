@@ -135,6 +135,15 @@
   color: #4b463d;
 }
 
+/* On very narrow phones (~320px) the tray's fixed-width items (pager/lang/sound icons,
+ * clock) plus this label together are wider than the viewport — drop the label and keep
+ * just the dot; the full text is still available via the title="" tooltip on the parent. */
+@media (max-width: 359px) {
+  .statusText {
+    display: none;
+  }
+}
+
 .clock {
   font-variant-numeric: tabular-nums;
   min-width: 44px;

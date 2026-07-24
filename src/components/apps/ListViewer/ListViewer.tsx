@@ -1,5 +1,7 @@
+import clsx from 'clsx';
 import { useT } from '../../../i18n';
 import { useBeep } from '../../../hooks/useBeep';
+import { useIsMobile } from '../../../hooks/useMediaQuery';
 import styles from './ListViewer.module.css';
 
 interface ListViewerProps {
@@ -9,6 +11,7 @@ interface ListViewerProps {
 export function ListViewer({ kind }: ListViewerProps) {
   const t = useT();
   const beep = useBeep();
+  const isMobile = useIsMobile();
   const groups = kind === 'computer' ? t.drives : t.network;
 
   return (
@@ -20,7 +23,7 @@ export function ListViewer({ kind }: ListViewerProps) {
             <button
               key={row.k}
               type="button"
-              className={styles.row}
+              className={clsx(styles.row, isMobile && styles.rowMobile)}
               onClick={() => {
                 if (row.url) window.open(row.url, '_blank', 'noopener,noreferrer');
                 else beep('click');
