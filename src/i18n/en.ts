@@ -226,4 +226,13 @@ export const en: UiStrings = {
     ],
     mute: 'Do not show this tip again',
   },
+  bsod: {
+    heading: 'VOID OS',
+    commandLabel: 'Command:',
+    intro: 'VOID_KRNL.SYS received a command it was not prepared to survive.',
+    warning:
+      'The process has been halted to prevent irreversible damage to this fictional operating system.',
+    stopCode: '*** STOP: 0xDEADC0DE (0xB16B00B5, 0xCAFEF00D, 0x8BADF00D, 0x0BADF00D)',
+    footer: 'Click or press any key to restart VOID OS',
+  },
 };

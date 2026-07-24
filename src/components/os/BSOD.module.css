@@ -1,0 +1,59 @@
+.screen {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-bsod);
+  background: #0000ab;
+  color: #ffffff;
+  font-family: var(--font-mono);
+  padding: 64px 72px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  cursor: pointer;
+}
+
+.heading {
+  font-size: 15px;
+  letter-spacing: 0.08em;
+}
+
+.commandLine {
+  font-size: 14px;
+}
+
+.commandValue {
+  color: #ffe08a;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 14px;
+  line-height: 1.7;
+  max-width: 640px;
+}
+
+.stopCode {
+  font-size: 13px;
+  color: #c9d6ff;
+}
+
+.footer {
+  margin-top: auto;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  animation: bsodBlink 1s step-start infinite;
+}
+
+@keyframes bsodBlink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer {
+    animation: none;
+  }
+}
