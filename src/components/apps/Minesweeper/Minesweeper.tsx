@@ -38,7 +38,7 @@ export function Minesweeper() {
     if (!startedAt) setStartedAt(Date.now());
     if (next.dead || next.won) setEndedAt(Date.now());
     setBoard(next);
-    beep(next.dead ? 'error' : next.won ? 'ok' : 'click');
+    beep(next.dead ? 'error' : next.won ? 'win' : 'click');
   }
 
   function handleFlag(x: number, y: number, e: React.MouseEvent) {
@@ -85,7 +85,11 @@ export function Minesweeper() {
               <button
                 key={x}
                 type="button"
-                className={clsx(styles.cell, cell.revealed ? 'bevel-sunken' : 'bevel-raised')}
+                className={clsx(
+                  styles.cell,
+                  cell.revealed ? 'bevel-sunken' : 'bevel-raised',
+                  board.won && cell.revealed && styles.cellWin,
+                )}
                 style={{
                   background: cell.revealed
                     ? cell.mine
@@ -96,6 +100,7 @@ export function Minesweeper() {
                     cell.revealed && !cell.mine
                       ? NUMBER_COLORS[cell.adjacent]
                       : 'var(--color-text)',
+                  animationDelay: board.won ? `${(x + y) * 40}ms` : undefined,
                 }}
                 onClick={() => handleReveal(x, y)}
                 onContextMenu={(e) => handleFlag(x, y, e)}
@@ -107,7 +112,17 @@ export function Minesweeper() {
         ))}
       </div>
 
-      <div className={styles.status}>{status}</div>
+      {board.won ? (
+        <div className={clsx(styles.winBanner, 'bevel-raised')}>
+          <div className={styles.winTrophy}>🏆</div>
+          <div className={styles.winCopy}>
+            <div className={styles.winTitle}>{t.mine.winTitle}</div>
+            <div className={styles.winSubtitle}>{t.mine.win}</div>
+          </div>
+        </div>
+      ) : (
+        <div className={styles.status}>{status}</div>
+      )}
     </div>
   );
 }

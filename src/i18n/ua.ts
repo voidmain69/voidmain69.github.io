@@ -166,6 +166,7 @@ export const ua: UiStrings = {
     time: 'ЧАС',
     reset: 'НОВА ГРА',
     idle: 'Клік — відкрити клітинку. Права кнопка — прапорець.',
+    winTitle: 'Перемога!',
     win: 'Поле розміноване. Achievement unlocked: Risk Assessment.',
     lost: 'BOOM. Некурований збіг виявився міною. Спробуйте ще.',
   },

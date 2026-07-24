@@ -167,6 +167,7 @@ export const en: UiStrings = {
     time: 'TIME',
     reset: 'NEW GAME',
     idle: 'Click to reveal a cell. Right-click to flag.',
+    winTitle: 'You win!',
     win: 'Field cleared. Achievement unlocked: Risk Assessment.',
     lost: 'BOOM. That uncurated match was a mine. Try again.',
   },

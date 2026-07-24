@@ -1,15 +1,22 @@
 import { useCallback, useRef } from 'react';
 import { useSystemStore } from '../store/system';
 
-export type BeepKind = 'click' | 'open' | 'close' | 'error' | 'ok' | 'uhoh';
+export type BeepKind = 'click' | 'open' | 'close' | 'error' | 'ok' | 'uhoh' | 'win';
 
-const FREQUENCIES: Record<Exclude<BeepKind, 'uhoh'>, number> = {
+const FREQUENCIES: Record<Exclude<BeepKind, 'uhoh' | 'win'>, number> = {
   click: 760,
   open: 520,
   close: 320,
   error: 150,
   ok: 1180,
 };
+
+/** Ascending three-note arpeggio for a proper little "you won" jingle. */
+const WIN_NOTES: readonly [frequency: number, startOffset: number][] = [
+  [660, 0],
+  [880, 0.1],
+  [1320, 0.2],
+];
 
 function playTone(ctx: AudioContext, frequency: number, startOffset: number): void {
   const oscillator = ctx.createOscillator();
@@ -41,6 +48,10 @@ export function useBeep(): (kind: BeepKind) => void {
         if (kind === 'uhoh') {
           playTone(ctx, 520, 0);
           playTone(ctx, 370, 0.16);
+          return;
+        }
+        if (kind === 'win') {
+          for (const [frequency, startOffset] of WIN_NOTES) playTone(ctx, frequency, startOffset);
           return;
         }
         playTone(ctx, FREQUENCIES[kind], 0);
