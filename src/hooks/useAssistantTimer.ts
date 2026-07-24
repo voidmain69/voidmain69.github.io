@@ -1,21 +1,24 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { useWindowManagerStore } from '../store/windowManager';
 import { useSystemStore } from '../store/system';
-import { ASSISTANT_DELAY_MS } from '../constants';
+import { useIdleTimer } from './useIdleTimer';
+import { useBeep } from './useBeep';
+import { ASSISTANT_IDLE_MS } from '../constants';
 
-/** Shows the assistant bubble once, after an idle delay, unless the visitor already opened Pager. */
+/** Shows the assistant bubble (with a beep) once the visitor has been idle for a while,
+ * unless they've already opened Pager. Any mouse/keyboard/touch/scroll activity resets the idle clock. */
 export function useAssistantTimer(): void {
   const windows = useWindowManagerStore((s) => s.windows);
   const showAssistant = useSystemStore((s) => s.showAssistant);
+  const beep = useBeep();
   const windowsRef = useRef(windows);
   windowsRef.current = windows;
 
-  useEffect(() => {
-    const id = window.setTimeout(() => {
-      const hasPagerOpen = windowsRef.current.some((w) => w.kind === 'pager');
-      if (!hasPagerOpen) showAssistant();
-    }, ASSISTANT_DELAY_MS);
-    return () => window.clearTimeout(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  useIdleTimer(ASSISTANT_IDLE_MS, () => {
+    const hasPagerOpen = windowsRef.current.some((w) => w.kind === 'pager');
+    if (!hasPagerOpen) {
+      showAssistant();
+      beep('click');
+    }
+  });
 }
