@@ -1,0 +1,56 @@
+@import './tokens.css';
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--wallpaper-base);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--color-text);
+}
+
+#root {
+  height: 100%;
+}
+
+a {
+  color: var(--color-link);
+}
+
+a:hover {
+  color: var(--color-link-hover);
+}
+
+::selection {
+  background: var(--accent-blue);
+  color: #fff;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+/* Classic 3D bevel — raised (buttons, window frames, "up" state). */
+.bevel-raised {
+  border: 2px solid;
+  border-color: var(--bevel-light) var(--bevel-dark) var(--bevel-dark) var(--bevel-light);
+}
+
+/* Sunken bevel — pressed buttons, inset content panes. */
+.bevel-sunken {
+  border: 2px solid;
+  border-color: var(--bevel-dark) var(--bevel-light) var(--bevel-light) var(--bevel-dark);
+}

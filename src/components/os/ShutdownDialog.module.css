@@ -1,0 +1,50 @@
+.pane {
+  flex: 1;
+  background: var(--bevel-face);
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.body {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.icon {
+  width: 34px;
+  height: 34px;
+  flex: none;
+  background: #e0a527;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  box-shadow:
+    inset 2px 2px 0 rgba(255, 255, 255, 0.45),
+    inset -2px -2px 0 rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: 700 18px var(--font-ui);
+}
+
+.text {
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.button {
+  min-width: 96px;
+  text-align: center;
+  padding: 7px 14px;
+  background: var(--bevel-face);
+  font-size: 12px;
+  cursor: pointer;
+}

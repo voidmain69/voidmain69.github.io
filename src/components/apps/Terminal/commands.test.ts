@@ -1,0 +1,86 @@
+import { describe, expect, it } from 'vitest';
+import { runCommand } from './commands';
+
+describe('terminal commands', () => {
+  it('help lists the available commands', () => {
+    const result = runCommand('help', 'en');
+    expect(result.lines[0]).toBe('Commands:');
+    expect(result.lines.some((l) => l.includes('whoami'))).toBe(true);
+  });
+
+  it('whoami returns a short bio with no side effect', () => {
+    const result = runCommand('whoami', 'en');
+    expect(result.effect).toBeUndefined();
+    expect(result.lines.length).toBeGreaterThan(0);
+  });
+
+  it('skills opens the computer window after a delay', () => {
+    const result = runCommand('skills', 'en');
+    expect(result.effect).toEqual({ type: 'open', kind: 'computer', delayMs: 220 });
+  });
+
+  it('projects lists the known project aliases', () => {
+    const result = runCommand('projects', 'en');
+    expect(result.lines.join('\n')).toContain('supplier');
+    expect(result.lines.join('\n')).toContain('wiki');
+  });
+
+  it('open <alias> resolves supplier and product-wiki aliases to a doc window', () => {
+    expect(runCommand('open supplier', 'en').effect).toEqual({
+      type: 'open',
+      kind: 'doc',
+      key: 'supplier',
+      delayMs: 200,
+    });
+    expect(runCommand('open supplier-aggregation', 'en').effect).toEqual({
+      type: 'open',
+      kind: 'doc',
+      key: 'supplier',
+      delayMs: 200,
+    });
+    expect(runCommand('open wiki', 'en').effect).toEqual({
+      type: 'open',
+      kind: 'doc',
+      key: 'wiki',
+      delayMs: 200,
+    });
+  });
+
+  it('open <unknown> reports not found and beeps error', () => {
+    const result = runCommand('open nope', 'en');
+    expect(result.effect).toBeUndefined();
+    expect(result.beep).toBe('error');
+    expect(result.lines[0]).toContain('Not found');
+  });
+
+  it('mine, minesweeper and game all launch Miner.EXE', () => {
+    for (const alias of ['mine', 'minesweeper', 'game']) {
+      expect(runCommand(alias, 'en').effect).toEqual({ type: 'open', kind: 'mine', delayMs: 200 });
+    }
+  });
+
+  it('contact, msg, icq and pager all launch PAGER 98', () => {
+    for (const alias of ['contact', 'msg', 'icq', 'pager']) {
+      expect(runCommand(alias, 'en').effect).toEqual({ type: 'open', kind: 'pager', delayMs: 220 });
+    }
+  });
+
+  it('lang toggles the language after a delay', () => {
+    const result = runCommand('lang', 'ua');
+    expect(result.effect).toEqual({ type: 'toggle-lang', delayMs: 120 });
+  });
+
+  it('an unknown command reports itself and beeps error', () => {
+    const result = runCommand('frobnicate', 'en');
+    expect(result.beep).toBe('error');
+    expect(result.lines[0]).toContain('Unknown command: frobnicate');
+  });
+
+  it('an empty command produces no output', () => {
+    expect(runCommand('   ', 'en')).toEqual({ lines: [] });
+  });
+
+  it('is case-insensitive on the command word', () => {
+    expect(runCommand('HELP', 'en').lines[0]).toBe('Commands:');
+  });
+});

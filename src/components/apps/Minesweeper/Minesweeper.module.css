@@ -1,0 +1,72 @@
+.pane {
+  flex: 1;
+  background: var(--bevel-face);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 6px 8px;
+}
+
+.counter {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font: 12px var(--font-mono);
+}
+
+.counterLabel {
+  font-size: 10px;
+  color: #4b463d;
+}
+
+.counterValue {
+  background: #0b0f0c;
+  color: #ff6a4d;
+  padding: 3px 7px;
+  letter-spacing: 0.08em;
+}
+
+.reset {
+  padding: 5px 12px;
+  background: var(--bevel-face);
+  font: 700 11px var(--font-ui);
+  cursor: pointer;
+}
+
+.board {
+  display: flex;
+  flex-direction: column;
+  padding: 3px;
+  background: #cdc9c1;
+}
+
+.row {
+  display: flex;
+}
+
+.cell {
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: 700 13px var(--font-ui);
+  cursor: pointer;
+  padding: 0;
+}
+
+.status {
+  font-size: 11px;
+  color: #4b463d;
+  text-align: center;
+}

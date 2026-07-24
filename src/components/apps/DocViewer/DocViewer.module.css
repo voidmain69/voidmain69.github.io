@@ -1,0 +1,147 @@
+.scroll {
+  flex: 1;
+  overflow: auto;
+  padding: 34px 40px 44px;
+  background: var(--doc-bg);
+}
+
+.content {
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.kicker {
+  font: 700 11px var(--font-ui);
+  letter-spacing: 0.18em;
+  color: var(--doc-kicker);
+}
+
+.name {
+  font: 700 27px/1.15 var(--font-ui);
+  letter-spacing: -0.01em;
+}
+
+.sub {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--doc-text);
+}
+
+.shot {
+  height: 150px;
+  background: repeating-linear-gradient(135deg, #e9e5dd 0 9px, #ddd8cf 9px 18px);
+  border: 1px solid #b4afa5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shotLabel {
+  font: 11px var(--font-mono);
+  letter-spacing: 0.12em;
+  color: #6b665c;
+  background: var(--doc-bg);
+  padding: 5px 10px;
+  border: 1px solid #b4afa5;
+}
+
+.meta {
+  display: grid;
+  grid-template-columns: 132px 1fr;
+  gap: 7px 18px;
+  font-size: 13px;
+  border-top: 1px solid var(--doc-border);
+  border-bottom: 1px solid var(--doc-border);
+  padding: 16px 0;
+}
+
+.metaLabel {
+  color: var(--doc-meta-label);
+}
+
+.metaValue {
+  color: var(--color-text);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.sectionHeading {
+  font: 700 15px var(--font-ui);
+}
+
+.sectionBody {
+  font-size: 13px;
+  line-height: 1.62;
+  color: var(--doc-text);
+}
+
+.bullets {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.bullet {
+  display: grid;
+  grid-template-columns: 16px 1fr;
+  gap: 8px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--doc-text);
+}
+
+.bulletMark {
+  color: var(--doc-kicker);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  padding-top: 4px;
+}
+
+.tag {
+  font: 11px var(--font-mono);
+  padding: 4px 8px;
+  background: var(--doc-tag-bg);
+  border: 1px solid var(--doc-tag-border);
+  color: #4b463d;
+}
+
+.cta {
+  align-self: flex-start;
+  text-decoration: none;
+  font: 700 12px var(--font-ui);
+  color: var(--color-text);
+  background: var(--bevel-face);
+  padding: 7px 16px;
+}
+
+.statBar {
+  display: flex;
+  gap: 14px;
+  padding: 4px 8px;
+  background: var(--bevel-face);
+  border-top: 1px solid var(--bevel-shadow);
+  font-size: 11px;
+  color: #4b463d;
+}
+
+.stat {
+  border: 1px solid;
+  border-color: var(--bevel-shadow) var(--bevel-light) var(--bevel-light) var(--bevel-shadow);
+  padding: 2px 8px;
+}

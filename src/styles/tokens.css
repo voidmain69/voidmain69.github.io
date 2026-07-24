@@ -1,0 +1,47 @@
+:root {
+  --font-ui: Tahoma, Verdana, Geneva, sans-serif;
+  --font-mono: ui-monospace, 'Courier New', monospace;
+
+  --color-text: #17150f;
+  --color-link: #1c3f8f;
+  --color-link-hover: #2f6bd6;
+
+  --bevel-face: #d6d2ca;
+  --bevel-light: #ffffff;
+  --bevel-dark: #4c4841;
+  --bevel-shadow: #86827a;
+  --bevel-body-bg: #ffffff;
+
+  --titlebar-active: linear-gradient(90deg, #1c3f8f, #4a7fce);
+  --titlebar-inactive: linear-gradient(90deg, #8d8a83, #b6b2aa);
+
+  --accent-blue: #1c3f8f;
+  --accent-blue-hover: #2f6bd6;
+
+  --doc-bg: #fbfaf7;
+  --doc-kicker: #8a5a12;
+  --doc-meta-label: #78736a;
+  --doc-border: #d8d3c9;
+  --doc-tag-bg: #eeebe4;
+  --doc-tag-border: #cbc5ba;
+  --doc-text: #332f28;
+
+  --list-header-bg: #eeebe4;
+  --list-header-border: #cbc5ba;
+  --list-row-border: #ece9e2;
+
+  --term-bg: #0b0f0c;
+  --term-fg: #7ef0a8;
+
+  --wallpaper-teal: linear-gradient(180deg, #0f7a6f, #075048);
+  --wallpaper-graphite: linear-gradient(180deg, #3b4147, #23272b);
+  --wallpaper-plum: linear-gradient(180deg, #5b3d63, #331f39);
+  --wallpaper-base: #0d6b62;
+
+  --z-desktop: 1;
+  --z-window-base: 20;
+  --z-start-menu: 9000;
+  --z-taskbar: 9500;
+  --z-assistant: 9200;
+  --z-boot: 99999;
+}

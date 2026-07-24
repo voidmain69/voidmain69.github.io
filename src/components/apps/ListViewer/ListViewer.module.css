@@ -1,0 +1,46 @@
+.pane {
+  flex: 1;
+  overflow: auto;
+  background: #ffffff;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+}
+
+.groupHeader {
+  padding: 9px 16px;
+  background: var(--list-header-bg);
+  border-bottom: 1px solid var(--list-header-border);
+  font: 700 12px var(--font-ui);
+  letter-spacing: 0.06em;
+  color: #4b463d;
+}
+
+.row {
+  display: grid;
+  align-items: baseline;
+  grid-template-columns: 180px 1fr;
+  gap: 16px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--list-row-border);
+  font-size: 13px;
+  cursor: pointer;
+  background: none;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  text-align: left;
+  width: 100%;
+  color: inherit;
+}
+
+.row:hover {
+  background: var(--accent-blue);
+  color: #ffffff;
+}
+
+.rowKey {
+  font: 12px var(--font-mono);
+}

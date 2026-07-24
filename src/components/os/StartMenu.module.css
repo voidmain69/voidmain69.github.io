@@ -1,0 +1,138 @@
+.menu {
+  position: absolute;
+  left: 0;
+  bottom: 44px;
+  z-index: var(--z-start-menu);
+  width: 250px;
+  display: flex;
+  background: var(--bevel-face);
+  box-shadow: 4px -2px 14px rgba(0, 0, 0, 0.35);
+}
+
+.spine {
+  width: 26px;
+  background: linear-gradient(180deg, #1c3f8f, #0d6b62);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 12px;
+}
+
+.spineLabel {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font: 700 13px var(--font-ui);
+  letter-spacing: 0.22em;
+  color: #fff;
+}
+
+.items {
+  flex: 1;
+  padding: 3px;
+}
+
+.item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  cursor: pointer;
+  width: 100%;
+  border: none;
+  text-align: left;
+  background: transparent;
+  color: inherit;
+}
+
+.itemOpen {
+  background: var(--accent-blue);
+  color: #ffffff;
+}
+
+.itemIcon {
+  width: 20px;
+  height: 18px;
+  flex: none;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.itemLabel {
+  flex: 1;
+  font-size: 13px;
+}
+
+.itemArrow {
+  font-size: 11px;
+}
+
+.flyout {
+  position: absolute;
+  left: 100%;
+  top: -3px;
+  width: 214px;
+  background: var(--bevel-face);
+  box-shadow: 4px 4px 14px rgba(0, 0, 0, 0.3);
+  padding: 3px;
+}
+
+.flyoutItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 10px;
+  font-size: 13px;
+  cursor: pointer;
+  width: 100%;
+  border: none;
+  text-align: left;
+  background: transparent;
+  color: inherit;
+}
+
+.flyoutItem:hover {
+  background: var(--accent-blue);
+  color: #ffffff;
+}
+
+.flyoutIcon {
+  width: 16px;
+  height: 14px;
+  flex: none;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.divider {
+  height: 1px;
+  margin: 4px 6px;
+  background: var(--bevel-shadow);
+  border-bottom: 1px solid var(--bevel-light);
+}
+
+.shutdown {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  cursor: pointer;
+  width: 100%;
+  border: none;
+  text-align: left;
+  background: transparent;
+  color: inherit;
+}
+
+.shutdown:hover {
+  background: var(--accent-blue);
+  color: #ffffff;
+}
+
+.shutdownIcon {
+  width: 20px;
+  height: 18px;
+  flex: none;
+  background: #c4562f;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.4);
+}
