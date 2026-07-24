@@ -24,6 +24,8 @@ interface SystemState {
   assistantVisible: boolean;
   assistantDismissed: boolean;
   assistantMuted: boolean;
+  crashed: boolean;
+  crashCommand: string | null;
   toggleLang: () => void;
   setWallpaper: (wallpaper: Wallpaper) => void;
   toggleMuted: () => void;
@@ -34,6 +36,8 @@ interface SystemState {
   showAssistant: () => void;
   dismissAssistant: () => void;
   toggleAssistantMuted: () => void;
+  crash: (command: string) => void;
+  recoverFromCrash: () => void;
 }
 
 export const useSystemStore = create<SystemState>((set, get) => ({
@@ -47,6 +51,8 @@ export const useSystemStore = create<SystemState>((set, get) => ({
   assistantVisible: false,
   assistantDismissed: false,
   assistantMuted: loadAssistantMuted(),
+  crashed: false,
+  crashCommand: null,
 
   toggleLang: () => set((s) => ({ lang: s.lang === 'ua' ? 'en' : 'ua' })),
   setWallpaper: (wallpaper) => set({ wallpaper }),
@@ -70,4 +76,7 @@ export const useSystemStore = create<SystemState>((set, get) => ({
       // storage unavailable — in-memory state still updated above
     }
   },
+
+  crash: (command) => set({ crashed: true, crashCommand: command }),
+  recoverFromCrash: () => set({ crashed: false, crashCommand: null }),
 }));

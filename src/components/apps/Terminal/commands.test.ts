@@ -83,4 +83,41 @@ describe('terminal commands', () => {
   it('is case-insensitive on the command word', () => {
     expect(runCommand('HELP', 'en').lines[0]).toBe('Commands:');
   });
+
+  it('classic destructive commands crash the OS instead of running as a normal command', () => {
+    const dangerous = [
+      'format',
+      'format c:',
+      'del /f /s /q c:\\',
+      'deltree c:\\',
+      'rd /s /q c:\\',
+      'rm -rf /',
+      'rm -rf --no-preserve-root /',
+      'sudo rm -rf /',
+      ':(){ :|:& };:',
+      'fdisk /mbr',
+      'mkfs.ext4 /dev/sda1',
+      'dd if=/dev/zero of=/dev/sda',
+    ];
+    for (const cmd of dangerous) {
+      const result = runCommand(cmd, 'en');
+      expect(result.effect).toEqual({ type: 'crash', command: cmd, delayMs: 900 });
+      expect(result.beep).toBe('error');
+    }
+  });
+
+  it('crash detection is case-insensitive and bilingual in its terminal message', () => {
+    expect(runCommand('FORMAT C:', 'en').effect).toEqual({
+      type: 'crash',
+      command: 'FORMAT C:',
+      delayMs: 900,
+    });
+    expect(runCommand('format', 'ua').lines[0]).toContain('КРИТИЧНА ПОМИЛКА');
+    expect(runCommand('format', 'en').lines[0]).toContain('CRITICAL ERROR');
+  });
+
+  it('does not crash on lookalike but harmless input', () => {
+    expect(runCommand('formatting my thoughts', 'en').effect).toBeUndefined();
+    expect(runCommand('information', 'en').effect).toBeUndefined();
+  });
 });

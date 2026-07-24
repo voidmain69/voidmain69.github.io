@@ -5,7 +5,8 @@ import { getProject } from '../../../data/projects';
 
 export type TerminalEffect =
   | { type: 'open'; kind: WindowKind; key?: string; delayMs: number }
-  | { type: 'toggle-lang'; delayMs: number };
+  | { type: 'toggle-lang'; delayMs: number }
+  | { type: 'crash'; command: string; delayMs: number };
 
 export interface CommandResult {
   lines: string[];
@@ -20,11 +21,38 @@ const OPEN_ALIASES: Record<string, string> = {
   'product-wiki': 'wiki',
 };
 
+/** Easter egg: classic "don't run this" commands blue-screen the whole fictional OS. */
+const DANGEROUS_PATTERNS: RegExp[] = [
+  /^format\b/,
+  /^del\s+\/f\s+\/s\s+\/q/,
+  /^deltree\b/,
+  /^rd\s+\/s\s+\/q/,
+  /^rm\s+-rf\s+(\/|--no-preserve-root)/,
+  /^sudo\s+rm\s+-rf/,
+  /^:\(\)\s*\{\s*:\|:\s*&\s*\}\s*;\s*:/, // fork bomb
+  /^fdisk\b/,
+  /^mkfs\b/,
+  /^dd\s+if=/,
+];
+
 /** Pure terminal command interpreter — no DOM/store access, easy to unit test. */
 export function runCommand(raw: string, lang: Lang): CommandResult {
   const cmd = raw.trim();
   const ua = lang === 'ua';
   if (!cmd) return { lines: [] };
+
+  if (DANGEROUS_PATTERNS.some((pattern) => pattern.test(cmd.toLowerCase()))) {
+    return {
+      lines: [
+        ua
+          ? 'КРИТИЧНА ПОМИЛКА. Ініціюю аварійну зупинку системи...'
+          : 'CRITICAL ERROR. Initiating emergency system halt...',
+        '',
+      ],
+      effect: { type: 'crash', command: cmd, delayMs: 900 },
+      beep: 'error',
+    };
+  }
 
   const [word, ...rest] = cmd.split(' ');
   const c = (word ?? '').toLowerCase();

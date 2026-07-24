@@ -225,4 +225,13 @@ export const ua: UiStrings = {
     ],
     mute: 'Більше не показувати підказку',
   },
+  bsod: {
+    heading: 'VOID OS',
+    commandLabel: 'Команда:',
+    intro: 'До ядра VOID_KRNL.SYS надійшла команда, з якою воно не готове було жити.',
+    warning:
+      'Процес зупинено, щоб запобігти незворотним наслідкам для цієї фіктивної операційної системи.',
+    stopCode: '*** STOP: 0xDEADC0DE (0xB16B00B5, 0xCAFEF00D, 0x8BADF00D, 0x0BADF00D)',
+    footer: 'Клік або будь-яка клавіша — перезавантажити VOID OS',
+  },
 };

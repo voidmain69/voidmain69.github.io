@@ -12,6 +12,7 @@ export function Terminal() {
   const t = useT();
   const lang = useSystemStore((s) => s.lang);
   const toggleLang = useSystemStore((s) => s.toggleLang);
+  const crash = useSystemStore((s) => s.crash);
   const openWindow = useWindowManagerStore((s) => s.open);
   const beep = useBeep();
   const [history, setHistory] = useState<string[]>(() => t.termHello.slice());
@@ -40,7 +41,8 @@ export function Terminal() {
       const effect = result.effect;
       window.setTimeout(() => {
         if (effect.type === 'open') openWindow(effect.kind, effect.key);
-        else toggleLang();
+        else if (effect.type === 'toggle-lang') toggleLang();
+        else crash(effect.command);
       }, effect.delayMs);
     }
   }

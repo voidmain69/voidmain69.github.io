@@ -95,4 +95,12 @@ export interface UiStrings {
     options: string[];
     mute: string;
   };
+  bsod: {
+    heading: string;
+    commandLabel: string;
+    intro: string;
+    warning: string;
+    stopCode: string;
+    footer: string;
+  };
 }

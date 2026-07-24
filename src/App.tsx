@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useSystemStore } from './store/system';
+import { useWindowManagerStore } from './store/windowManager';
 import { useAssistantTimer } from './hooks/useAssistantTimer';
 import { BootScreen } from './components/os/BootScreen';
+import { BSOD } from './components/os/BSOD';
 import { Desktop } from './components/os/Desktop';
 import { Taskbar } from './components/os/Taskbar';
 import { StartMenu } from './components/os/StartMenu';
@@ -12,6 +14,9 @@ export function App() {
   const startOpen = useSystemStore((s) => s.startOpen);
   const closeStart = useSystemStore((s) => s.closeStart);
   const assistantVisible = useSystemStore((s) => s.assistantVisible);
+  const crashed = useSystemStore((s) => s.crashed);
+  const recoverFromCrash = useSystemStore((s) => s.recoverFromCrash);
+  const closeAllWindows = useWindowManagerStore((s) => s.closeAll);
 
   useAssistantTimer();
 
@@ -28,6 +33,18 @@ export function App() {
 
   if (booting) {
     return <BootScreen onDone={() => setBooting(false)} />;
+  }
+
+  if (crashed) {
+    return (
+      <BSOD
+        onReboot={() => {
+          recoverFromCrash();
+          closeAllWindows();
+          setBooting(true);
+        }}
+      />
+    );
   }
 
   return (
