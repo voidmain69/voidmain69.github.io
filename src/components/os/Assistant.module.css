@@ -129,6 +129,26 @@
   width: 76px;
   height: 82px;
   position: relative;
+  animation: assistantNudge 900ms ease-in-out 1;
+}
+
+/* One-shot "hey, over here" wiggle played when the assistant first appears after idle. */
+@keyframes assistantNudge {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  20% {
+    transform: translateY(-6px) rotate(-6deg);
+  }
+  40% {
+    transform: translateY(0) rotate(4deg);
+  }
+  60% {
+    transform: translateY(-3px) rotate(-3deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
 }
 
 .coil {
@@ -194,6 +214,8 @@
   align-items: flex-end;
   justify-content: center;
   padding-bottom: 3px;
+  transform-origin: center;
+  animation: eyeBlink 6s ease-in-out infinite;
 }
 
 .pupil {
@@ -201,4 +223,28 @@
   height: 6px;
   border-radius: 50%;
   background: var(--color-text);
+}
+
+/* Blink, pause, blink-blink: two quick blinks close together, then a long pause before repeating. */
+@keyframes eyeBlink {
+  0%,
+  3%,
+  45%,
+  48.5%,
+  52%,
+  100% {
+    transform: scaleY(1);
+  }
+  1.5%,
+  47%,
+  50.5% {
+    transform: scaleY(0.1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .figure,
+  .eye {
+    animation: none;
+  }
 }
