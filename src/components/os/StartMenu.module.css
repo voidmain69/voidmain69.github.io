@@ -77,6 +77,20 @@
   padding: 3px;
 }
 
+/* On mobile there's no room to pop a 214px flyout out to the side without running off
+ * the edge of the screen, so it drops down inline (accordion-style) instead. */
+.itemMobile {
+  flex-wrap: wrap;
+}
+
+.flyoutMobile {
+  position: static;
+  flex-basis: 100%;
+  width: 100%;
+  margin-top: 6px;
+  box-shadow: none;
+}
+
 .flyoutItem {
   display: flex;
   align-items: center;

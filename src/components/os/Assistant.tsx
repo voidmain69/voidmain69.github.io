@@ -1,12 +1,15 @@
+import clsx from 'clsx';
 import { useSystemStore } from '../../store/system';
 import { useWindowManagerStore } from '../../store/windowManager';
 import { useT } from '../../i18n';
 import { useBeep } from '../../hooks/useBeep';
+import { useIsMobile } from '../../hooks/useMediaQuery';
 import styles from './Assistant.module.css';
 
 export function Assistant() {
   const t = useT();
   const beep = useBeep();
+  const isMobile = useIsMobile();
   const assistantMuted = useSystemStore((s) => s.assistantMuted);
   const dismissAssistant = useSystemStore((s) => s.dismissAssistant);
   const toggleAssistantMuted = useSystemStore((s) => s.toggleAssistantMuted);
@@ -26,7 +29,7 @@ export function Assistant() {
   }
 
   return (
-    <div className={styles.root}>
+    <div className={clsx(styles.root, isMobile && styles.rootMobile)}>
       <div className={styles.bubble}>
         <button type="button" className={styles.close} onClick={handleClose} aria-label="Close">
           ✕

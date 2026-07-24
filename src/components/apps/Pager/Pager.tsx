@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import { useT } from '../../../i18n';
 import { useBeep } from '../../../hooks/useBeep';
+import { useIsMobile } from '../../../hooks/useMediaQuery';
 import { usePagerLog } from './usePagerLog';
 import { pagerStatus, PAGER_STATUS_DOT } from '../../../utils/pagerStatus';
 import styles from './Pager.module.css';
@@ -8,13 +9,14 @@ import styles from './Pager.module.css';
 export function Pager() {
   const t = useT();
   const beep = useBeep();
+  const isMobile = useIsMobile();
   const { log, input, setInput, typing, send } = usePagerLog(t.pager.replies, beep);
   const status = pagerStatus();
   const displayLog = log.length > 0 ? log : [{ who: 'sys' as const, text: t.pager.hello, at: '' }];
 
   return (
-    <div className={styles.pane}>
-      <div className={styles.sidebar}>
+    <div className={clsx(styles.pane, isMobile && styles.paneMobile)}>
+      <div className={clsx(styles.sidebar, isMobile && styles.sidebarMobile)}>
         <div className={styles.selfCard}>
           <div className={styles.dot} style={{ background: PAGER_STATUS_DOT[status] }} />
           <div className={styles.selfInfo}>
@@ -44,7 +46,7 @@ export function Pager() {
         <div className={styles.note}>{t.pager.note}</div>
       </div>
 
-      <div className={styles.main}>
+      <div className={clsx(styles.main, isMobile && styles.mainMobile)}>
         <div className={clsx(styles.log, 'bevel-sunken')}>
           {displayLog.map((m, i) => (
             <div key={i} className={styles.entry}>
@@ -67,7 +69,7 @@ export function Pager() {
           )}
         </div>
 
-        <div className={styles.composer}>
+        <div className={clsx(styles.composer, isMobile && styles.composerMobile)}>
           <textarea
             className={clsx(styles.textarea, 'bevel-sunken')}
             value={input}
@@ -80,7 +82,7 @@ export function Pager() {
             }}
             placeholder={t.pager.placeholder}
           />
-          <div className={styles.composerActions}>
+          <div className={clsx(styles.composerActions, isMobile && styles.composerActionsMobile)}>
             <button
               type="button"
               className={clsx(styles.sendButton, 'bevel-raised')}
@@ -88,7 +90,14 @@ export function Pager() {
             >
               {t.pager.send}
             </button>
-            <a className={clsx(styles.mailButton, 'bevel-raised')} href="mailto:hello@example.com">
+            <a
+              className={clsx(
+                styles.mailButton,
+                isMobile && styles.mailButtonMobile,
+                'bevel-raised',
+              )}
+              href="mailto:hello@example.com"
+            >
               {t.pager.mail}
             </a>
           </div>

@@ -3,6 +3,7 @@ import { useSystemStore } from '../../store/system';
 import { useWindowManagerStore } from '../../store/windowManager';
 import { useT } from '../../i18n';
 import { useBeep } from '../../hooks/useBeep';
+import { useIsMobile } from '../../hooks/useMediaQuery';
 import { ICON_ART } from '../../data/desktop-icons';
 import { projects } from '../../data/projects';
 import type { WindowKind } from '../../types/window';
@@ -16,6 +17,7 @@ export function StartMenu() {
   const closeStart = useSystemStore((s) => s.closeStart);
   const open = useWindowManagerStore((s) => s.open);
   const beep = useBeep();
+  const isMobile = useIsMobile();
 
   function openAndClose(kind: WindowKind, key?: string) {
     open(kind, key);
@@ -35,12 +37,23 @@ export function StartMenu() {
           return (
             <div
               key={item.key}
-              className={clsx(styles.item, isOpen && styles.itemOpen)}
-              onMouseEnter={() => hoverStartSub(isSub ? item.key : null)}
+              className={clsx(
+                styles.item,
+                isOpen && styles.itemOpen,
+                isMobile && styles.itemMobile,
+              )}
+              onMouseEnter={() => {
+                // Touch browsers can synthesize a hover on tap; only desktop should hover-preview.
+                if (!isMobile) hoverStartSub(isSub ? item.key : null);
+              }}
               onClick={() => {
-                if (!isSub) {
-                  if (item.key === 'network') openAndClose('network');
-                  else if (item.key === 'help') openAndClose('help');
+                if (isSub) {
+                  // Touch devices don't fire mouseenter reliably, so tapping toggles the flyout too.
+                  hoverStartSub(startSub === item.key ? null : item.key);
+                } else if (item.key === 'network') {
+                  openAndClose('network');
+                } else if (item.key === 'help') {
+                  openAndClose('help');
                 }
               }}
             >
@@ -55,7 +68,7 @@ export function StartMenu() {
               <div className={styles.itemArrow}>{item.arrow}</div>
 
               {isOpen && item.key === 'programs' && (
-                <div className={styles.flyout}>
+                <div className={clsx(styles.flyout, isMobile && styles.flyoutMobile)}>
                   {t.programs.map((p) => (
                     <button
                       key={p.key}
@@ -74,7 +87,7 @@ export function StartMenu() {
               )}
 
               {isOpen && item.key === 'documents' && (
-                <div className={styles.flyout}>
+                <div className={clsx(styles.flyout, isMobile && styles.flyoutMobile)}>
                   {projects.map((project) => (
                     <button
                       key={project.id}
