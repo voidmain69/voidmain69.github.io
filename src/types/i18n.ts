@@ -86,6 +86,7 @@ export interface UiStrings {
     sys: string;
     hello: string;
     replies: string[];
+    sendError: string;
     contacts: PagerContact[];
   };
   assistant: {

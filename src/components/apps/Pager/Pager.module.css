@@ -166,6 +166,11 @@
   color: #78736a;
 }
 
+.sendError {
+  font: 11px var(--font-mono);
+  color: #a3372c;
+}
+
 .composer {
   display: flex;
   gap: 8px;
