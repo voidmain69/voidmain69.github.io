@@ -237,7 +237,6 @@ export const en: UiStrings = {
     ],
   },
   assistant: {
-    text: 'It looks like you want to get in touch. How can I help?',
     yes: 'OPEN',
     no: 'Not now',
     options: [
@@ -247,6 +246,22 @@ export const en: UiStrings = {
       'No thanks — I will look around',
     ],
     mute: 'Do not show this tip again',
+    slides: [
+      'This portfolio is styled as the desktop of a fictional operating system, VOID OS — not just a project list, but a small game with windows, a terminal, and its own OS aesthetic.',
+      "I'm Vitalii Riznychenko — Head of AI at ERC. I build RAG architectures and multi-agent pipelines where the LLM is not a demo but part of production.",
+      "My goal here is simple: show not a stack of technologies, but how I think — deterministic first, with provenance, no magic where magic shouldn't live.",
+      "The Projects folder has four case studies: a PIM platform, competitor intelligence, the 'Product Wiki', and PC Configurator. Each comes with a problem, a solution, and a result.",
+      'Controls are simple: double-click an icon to open its window, drag the titlebar, the buttons on the right minimize/maximize/close. Just like a real OS — a fictional one.',
+      'The desktop has a Terminal, PAGER 98, Miner, My Computer, Network, README, and Resume. Each icon is its own little program with its own logic.',
+      "There's a UA/EN switch in the tray, sound (real WebAudio beeps, no files), wallpaper themes, and even a fully playable Miner with a win state and animation.",
+      "Tip: there's something in the Terminal you probably shouldn't type. Or should — depends on how curious you are.",
+    ],
+    funFacts: [
+      'Fun fact: before AI, I spent 15+ years in IT distribution and PC manufacturing — I know hardware as well as I know neural nets.',
+      'Fun fact: in my free time I build smart devices on ESP32. One more excuse to repeat — deterministic beats pretty generation.',
+      'Fun fact: photography and painting are the rare case where I deliberately switch rationality off.',
+      'Fun fact: cycling is basically debugging a production incident, just outdoors and without a stack trace.',
+    ],
   },
   bsod: {
     heading: 'VOID OS',

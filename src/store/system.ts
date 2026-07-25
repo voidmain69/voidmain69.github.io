@@ -22,7 +22,8 @@ interface SystemState {
   startSub: string | null;
   selectedIcon: string | null;
   assistantVisible: boolean;
-  assistantDismissed: boolean;
+  /** Advances every time the assistant is shown, driving which rotating message it displays. */
+  assistantMessageIndex: number;
   assistantMuted: boolean;
   crashed: boolean;
   crashCommand: string | null;
@@ -33,7 +34,9 @@ interface SystemState {
   closeStart: () => void;
   hoverStartSub: (key: string | null) => void;
   selectIcon: (key: string | null) => void;
-  showAssistant: () => void;
+  /** Returns whether it actually showed (false if already visible or muted) — callers use this
+   * to decide whether a "here I am" beep is warranted. */
+  showAssistant: () => boolean;
   dismissAssistant: () => void;
   toggleAssistantMuted: () => void;
   crash: (command: string) => void;
@@ -49,7 +52,7 @@ export const useSystemStore = create<SystemState>((set, get) => ({
   startSub: null,
   selectedIcon: null,
   assistantVisible: false,
-  assistantDismissed: false,
+  assistantMessageIndex: -1,
   assistantMuted: loadAssistantMuted(),
   crashed: false,
   crashCommand: null,
@@ -63,10 +66,12 @@ export const useSystemStore = create<SystemState>((set, get) => ({
   selectIcon: (key) => set({ selectedIcon: key }),
 
   showAssistant: () => {
-    if (get().assistantDismissed || get().assistantMuted) return;
-    set({ assistantVisible: true });
+    const s = get();
+    if (s.assistantMuted || s.assistantVisible) return false;
+    set({ assistantVisible: true, assistantMessageIndex: s.assistantMessageIndex + 1 });
+    return true;
   },
-  dismissAssistant: () => set({ assistantVisible: false, assistantDismissed: true }),
+  dismissAssistant: () => set({ assistantVisible: false }),
   toggleAssistantMuted: () => {
     const next = !get().assistantMuted;
     set({ assistantMuted: next });

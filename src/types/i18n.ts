@@ -90,11 +90,14 @@ export interface UiStrings {
     contacts: PagerContact[];
   };
   assistant: {
-    text: string;
     yes: string;
     no: string;
     options: string[];
     mute: string;
+    /** Ordered "tour" slides the assistant rotates through on repeat appearances. */
+    slides: string[];
+    /** Randomly picked on alternating appearances, interleaved with `slides`. */
+    funFacts: string[];
   };
   bsod: {
     heading: string;

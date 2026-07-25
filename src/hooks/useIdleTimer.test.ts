@@ -55,4 +55,48 @@ describe('useIdleTimer', () => {
     vi.advanceTimersByTime(5000);
     expect(onIdle).not.toHaveBeenCalled();
   });
+
+  describe('with repeat: true', () => {
+    it('keeps re-arming and fires again after every subsequent idle period', () => {
+      const onIdle = vi.fn();
+      renderHook(() => useIdleTimer(1000, onIdle, { repeat: true }));
+
+      vi.advanceTimersByTime(1000);
+      expect(onIdle).toHaveBeenCalledTimes(1);
+
+      vi.advanceTimersByTime(1000);
+      expect(onIdle).toHaveBeenCalledTimes(2);
+
+      vi.advanceTimersByTime(3000);
+      expect(onIdle).toHaveBeenCalledTimes(5);
+    });
+
+    it('still resets the countdown on activity between firings', () => {
+      const onIdle = vi.fn();
+      renderHook(() => useIdleTimer(1000, onIdle, { repeat: true }));
+
+      vi.advanceTimersByTime(1000);
+      expect(onIdle).toHaveBeenCalledTimes(1);
+
+      vi.advanceTimersByTime(800);
+      window.dispatchEvent(new Event('mousemove'));
+      vi.advanceTimersByTime(800);
+      expect(onIdle).toHaveBeenCalledTimes(1);
+
+      vi.advanceTimersByTime(200);
+      expect(onIdle).toHaveBeenCalledTimes(2);
+    });
+
+    it('stops firing after unmount', () => {
+      const onIdle = vi.fn();
+      const { unmount } = renderHook(() => useIdleTimer(1000, onIdle, { repeat: true }));
+
+      vi.advanceTimersByTime(1000);
+      expect(onIdle).toHaveBeenCalledTimes(1);
+
+      unmount();
+      vi.advanceTimersByTime(5000);
+      expect(onIdle).toHaveBeenCalledTimes(1);
+    });
+  });
 });
