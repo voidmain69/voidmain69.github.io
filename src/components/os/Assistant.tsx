@@ -65,9 +65,7 @@ export function Assistant() {
       </div>
 
       <div className={styles.figure}>
-        <div className={`${styles.coil} ${styles.coil1}`} />
-        <div className={`${styles.coil} ${styles.coil2}`} />
-        <div className={`${styles.coil} ${styles.coil3}`} />
+        <div className={styles.stem} />
         <div className={styles.shadow} />
         <div className={styles.eyes}>
           <div className={styles.eye}>
