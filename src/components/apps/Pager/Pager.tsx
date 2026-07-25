@@ -96,7 +96,7 @@ export function Pager() {
                 isMobile && styles.mailButtonMobile,
                 'bevel-raised',
               )}
-              href="mailto:hello@example.com"
+              href="mailto:rv84@i.ua"
             >
               {t.pager.mail}
             </a>

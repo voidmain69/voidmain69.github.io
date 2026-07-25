@@ -21,27 +21,47 @@ describe('terminal commands', () => {
 
   it('projects lists the known project aliases', () => {
     const result = runCommand('projects', 'en');
-    expect(result.lines.join('\n')).toContain('supplier');
+    expect(result.lines.join('\n')).toContain('pim');
+    expect(result.lines.join('\n')).toContain('ci');
     expect(result.lines.join('\n')).toContain('wiki');
+    expect(result.lines.join('\n')).toContain('pcc');
   });
 
-  it('open <alias> resolves supplier and product-wiki aliases to a doc window', () => {
-    expect(runCommand('open supplier', 'en').effect).toEqual({
+  it('open <alias> resolves every project alias to its doc window', () => {
+    expect(runCommand('open pim', 'en').effect).toEqual({
       type: 'open',
       kind: 'doc',
-      key: 'supplier',
+      key: 'pim',
       delayMs: 200,
     });
-    expect(runCommand('open supplier-aggregation', 'en').effect).toEqual({
+    expect(runCommand('open pim-platform', 'en').effect).toEqual({
       type: 'open',
       kind: 'doc',
-      key: 'supplier',
+      key: 'pim',
+      delayMs: 200,
+    });
+    expect(runCommand('open ci', 'en').effect).toEqual({
+      type: 'open',
+      kind: 'doc',
+      key: 'competitor-intel',
       delayMs: 200,
     });
     expect(runCommand('open wiki', 'en').effect).toEqual({
       type: 'open',
       kind: 'doc',
       key: 'wiki',
+      delayMs: 200,
+    });
+    expect(runCommand('open pcc', 'en').effect).toEqual({
+      type: 'open',
+      kind: 'doc',
+      key: 'pc-configurator',
+      delayMs: 200,
+    });
+    expect(runCommand('open configurator', 'en').effect).toEqual({
+      type: 'open',
+      kind: 'doc',
+      key: 'pc-configurator',
       delayMs: 200,
     });
   });

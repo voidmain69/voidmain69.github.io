@@ -10,7 +10,7 @@ export interface ProjectSection {
 }
 
 export interface ProjectContent {
-  /** Filename shown as the window title, e.g. "supplier-aggregation.doc". */
+  /** Filename shown as the window title, e.g. "pim-platform.doc". */
   file: string;
   kicker: string;
   name: string;
@@ -19,7 +19,8 @@ export interface ProjectContent {
   meta: ProjectMeta[];
   sections: ProjectSection[];
   tags: string[];
-  cta: string;
+  /** CTA link label — only rendered if the project also has a `repo`. */
+  cta?: string;
 }
 
 export interface Project {
@@ -27,7 +28,8 @@ export interface Project {
   tag: string;
   color1: string;
   color2: string;
-  repo: string;
+  /** Public repo URL. Omitted for internal/proprietary work — DocViewer hides the CTA button then. */
+  repo?: string;
   ua: ProjectContent;
   en: ProjectContent;
 }

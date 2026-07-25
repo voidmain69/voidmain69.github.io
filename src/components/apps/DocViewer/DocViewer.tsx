@@ -66,9 +66,11 @@ export function DocViewer({ projectId }: DocViewerProps) {
             ))}
           </div>
 
-          <a className={styles.cta} href={project.repo} target="_blank" rel="noopener noreferrer">
-            {content.cta}
-          </a>
+          {project.repo && content.cta && (
+            <a className={styles.cta} href={project.repo} target="_blank" rel="noopener noreferrer">
+              {content.cta}
+            </a>
+          )}
         </div>
       </div>
 
