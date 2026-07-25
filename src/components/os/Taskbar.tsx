@@ -5,7 +5,7 @@ import { useT } from '../../i18n';
 import { useBeep } from '../../hooks/useBeep';
 import { useClock } from '../../hooks/useClock';
 import { getProject } from '../../data/projects';
-import { ICON_ART } from '../../data/desktop-icons';
+import { DESKTOP_ICON_GLYPHS, ICON_ART } from '../../data/desktop-icons';
 import { pagerStatus, PAGER_STATUS_DOT } from '../../utils/pagerStatus';
 import type { WindowState } from '../../types/window';
 import styles from './Taskbar.module.css';
@@ -61,6 +61,7 @@ export function Taskbar() {
         {windows.map((w) => {
           const top = isTop(w);
           const art = ICON_ART[w.kind];
+          const Glyph = DESKTOP_ICON_GLYPHS[w.kind];
           return (
             <button
               key={w.id}
@@ -69,7 +70,12 @@ export function Taskbar() {
               style={{ fontWeight: top ? 700 : 400 }}
               onClick={() => handleTaskClick(w)}
             >
-              <div className={styles.taskIcon} style={{ background: art.color1 }} />
+              <div
+                className={clsx(styles.taskIcon, Glyph && styles.taskIconArt)}
+                style={Glyph ? undefined : { background: art.color1 }}
+              >
+                {Glyph && <Glyph className={styles.taskIconSvg} />}
+              </div>
               <div className={styles.taskTitle}>{taskTitle(w)}</div>
             </button>
           );
