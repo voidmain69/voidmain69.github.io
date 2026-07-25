@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import type { BeepKind } from '../../../hooks/useBeep';
 import {
+  PAGER_CONTACT_FIELD_MAX_LENGTH,
+  PAGER_CONTACT_STORAGE_KEY,
   PAGER_LOG_LIMIT,
   PAGER_LOG_STORAGE_KEY,
   PAGER_MESSAGE_MAX_LENGTH,
@@ -14,6 +16,11 @@ export interface PagerLogEntry {
 }
 
 export type PagerSendStatus = 'idle' | 'sending' | 'sent' | 'error';
+
+interface PagerContact {
+  name: string;
+  contact: string;
+}
 
 function loadLog(): PagerLogEntry[] {
   try {
@@ -32,25 +39,57 @@ function saveLog(log: PagerLogEntry[]): void {
   }
 }
 
+function loadContact(): PagerContact {
+  try {
+    const raw = window.localStorage.getItem(PAGER_CONTACT_STORAGE_KEY);
+    return raw ? (JSON.parse(raw) as PagerContact) : { name: '', contact: '' };
+  } catch {
+    return { name: '', contact: '' };
+  }
+}
+
+function saveContact(value: PagerContact): void {
+  try {
+    window.localStorage.setItem(PAGER_CONTACT_STORAGE_KEY, JSON.stringify(value));
+  } catch {
+    // storage unavailable — the in-memory fields still work for this session
+  }
+}
+
 function stamp(): string {
   const d = new Date();
   return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
 }
 
 /** Log persists to localStorage, replies are scripted, and each sent message is also relayed
- * to email via EmailJS (client-side only — see sendPagerEmail). */
+ * to email via EmailJS (client-side only — see sendPagerEmail), along with whatever contact
+ * info the visitor left, so a reply is actually possible. Name/contact persist across reloads
+ * too, so a returning visitor doesn't have to retype them for every message. */
 export function usePagerLog(replies: string[], beep: (kind: BeepKind) => void) {
   const [log, setLog] = useState<PagerLogEntry[]>(() => loadLog());
   const [input, setInput] = useState('');
+  const [name, setNameState] = useState(() => loadContact().name);
+  const [contact, setContactState] = useState(() => loadContact().contact);
   const [typing, setTyping] = useState(false);
   const [sendStatus, setSendStatus] = useState<PagerSendStatus>('idle');
   const replyTimer = useRef<number | undefined>(undefined);
 
   useEffect(() => () => window.clearTimeout(replyTimer.current), []);
 
+  function setName(value: string): void {
+    setNameState(value);
+    saveContact({ name: value, contact });
+  }
+
+  function setContact(value: string): void {
+    setContactState(value);
+    saveContact({ name, contact: value });
+  }
+
   function send(): void {
     const text = input.trim().slice(0, PAGER_MESSAGE_MAX_LENGTH);
-    if (!text) {
+    const contactValue = contact.trim().slice(0, PAGER_CONTACT_FIELD_MAX_LENGTH);
+    if (!text || !contactValue) {
       beep('error');
       return;
     }
@@ -62,7 +101,10 @@ export function usePagerLog(replies: string[], beep: (kind: BeepKind) => void) {
     beep('click');
 
     setSendStatus('sending');
-    void sendPagerEmail(text).then((ok) => setSendStatus(ok ? 'sent' : 'error'));
+    const nameValue = name.trim().slice(0, PAGER_CONTACT_FIELD_MAX_LENGTH);
+    void sendPagerEmail(text, { name: nameValue, email: contactValue }).then((ok) =>
+      setSendStatus(ok ? 'sent' : 'error'),
+    );
 
     window.clearTimeout(replyTimer.current);
     replyTimer.current = window.setTimeout(() => {
@@ -76,5 +118,5 @@ export function usePagerLog(replies: string[], beep: (kind: BeepKind) => void) {
     }, 1400);
   }
 
-  return { log, input, setInput, typing, sendStatus, send };
+  return { log, input, setInput, name, setName, contact, setContact, typing, sendStatus, send };
 }

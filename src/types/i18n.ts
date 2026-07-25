@@ -79,6 +79,8 @@ export interface UiStrings {
     mail: string;
     typing: string;
     placeholder: string;
+    namePlaceholder: string;
+    contactPlaceholder: string;
     note: string;
     statuses: { online: string; away: string; na: string };
     you: string;

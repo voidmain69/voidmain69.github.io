@@ -171,6 +171,26 @@
   color: #a3372c;
 }
 
+.identityRow {
+  display: flex;
+  gap: 8px;
+}
+
+.identityRowMobile {
+  flex-direction: column;
+}
+
+.identityInput {
+  flex: 1;
+  min-width: 0;
+  height: 26px;
+  background: #ffffff;
+  padding: 0 9px;
+  font: 12px var(--font-ui);
+  color: #1f1c17;
+  outline: none;
+}
+
 .composer {
   display: flex;
   gap: 8px;

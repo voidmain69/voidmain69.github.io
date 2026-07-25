@@ -10,7 +10,8 @@ export function Pager() {
   const t = useT();
   const beep = useBeep();
   const isMobile = useIsMobile();
-  const { log, input, setInput, typing, sendStatus, send } = usePagerLog(t.pager.replies, beep);
+  const { log, input, setInput, name, setName, contact, setContact, typing, sendStatus, send } =
+    usePagerLog(t.pager.replies, beep);
   const status = pagerStatus();
   const displayLog = log.length > 0 ? log : [{ who: 'sys' as const, text: t.pager.hello, at: '' }];
 
@@ -70,6 +71,21 @@ export function Pager() {
         </div>
 
         {sendStatus === 'error' && <div className={styles.sendError}>{t.pager.sendError}</div>}
+
+        <div className={clsx(styles.identityRow, isMobile && styles.identityRowMobile)}>
+          <input
+            className={clsx(styles.identityInput, 'bevel-sunken')}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder={t.pager.namePlaceholder}
+          />
+          <input
+            className={clsx(styles.identityInput, 'bevel-sunken')}
+            value={contact}
+            onChange={(e) => setContact(e.target.value)}
+            placeholder={t.pager.contactPlaceholder}
+          />
+        </div>
 
         <div className={clsx(styles.composer, isMobile && styles.composerMobile)}>
           <textarea

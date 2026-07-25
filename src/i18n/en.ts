@@ -212,7 +212,9 @@ export const en: UiStrings = {
     mail: 'Email',
     typing: 'typing...',
     placeholder: 'Your message. Ctrl+Enter to send.',
-    note: 'The log is stored in your browser (localStorage), and the message is also sent to my email.',
+    namePlaceholder: 'Your name (optional)',
+    contactPlaceholder: 'Email, phone, or Telegram — so I can reply',
+    note: 'The log is stored in your browser (localStorage), and the message plus your contact info is sent to my email.',
     statuses: {
       online: 'ONLINE · OPEN TO WORK',
       away: 'AWAY · WILL REPLY IN THE MORNING',
@@ -222,7 +224,7 @@ export const en: UiStrings = {
     me: 'VOID_69',
     sys: 'SYSTEM',
     hello:
-      'Write something — it goes straight to my email from your browser. If it is urgent, safer route: rv84@i.ua.',
+      'Write something and leave your contact — it goes straight to my email from your browser, and I can reply to you directly. If it is urgent, safer route: rv84@i.ua.',
     replies: [
       'Message received, on its way to my email. I will reply once the build finishes.',
       'Read. If this is about work: rv84@i.ua or +38 099 132-70-37 (WhatsApp/Viber) — I am faster there.',
