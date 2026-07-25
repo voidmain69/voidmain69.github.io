@@ -1,9 +1,11 @@
+import { useMemo } from 'react';
 import clsx from 'clsx';
 import { useSystemStore } from '../../store/system';
 import { useWindowManagerStore } from '../../store/windowManager';
 import { useT } from '../../i18n';
 import { useBeep } from '../../hooks/useBeep';
 import { useIsMobile } from '../../hooks/useMediaQuery';
+import { pickAssistantMessage } from '../../utils/pickAssistantMessage';
 import styles from './Assistant.module.css';
 
 export function Assistant() {
@@ -11,9 +13,16 @@ export function Assistant() {
   const beep = useBeep();
   const isMobile = useIsMobile();
   const assistantMuted = useSystemStore((s) => s.assistantMuted);
+  const messageIndex = useSystemStore((s) => s.assistantMessageIndex);
   const dismissAssistant = useSystemStore((s) => s.dismissAssistant);
   const toggleAssistantMuted = useSystemStore((s) => s.toggleAssistantMuted);
   const open = useWindowManagerStore((s) => s.open);
+
+  // Re-picked only when the assistant advances to a new appearance, not on every render.
+  const text = useMemo(
+    () => pickAssistantMessage(messageIndex, t.assistant.slides, t.assistant.funFacts),
+    [messageIndex, t.assistant.slides, t.assistant.funFacts],
+  );
 
   function handleOption(index: number) {
     dismissAssistant();
@@ -34,7 +43,7 @@ export function Assistant() {
         <button type="button" className={styles.close} onClick={handleClose} aria-label="Close">
           ✕
         </button>
-        <div className={styles.text}>{t.assistant.text}</div>
+        <div className={styles.text}>{text}</div>
         <div className={styles.options}>
           {t.assistant.options.map((label, i) => (
             <button

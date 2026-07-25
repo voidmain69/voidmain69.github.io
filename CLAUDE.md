@@ -131,6 +131,8 @@ Covered (Vitest + Testing Library where components are involved):
 - `components/apps/Minesweeper/board.test.ts` — first-click safety, flood fill, win/loss conditions, flag toggling.
 - `components/apps/Terminal/commands.test.ts` — every terminal command plus the unknown-command fallback.
 - `utils/sendPagerEmail.test.ts` — missing-config no-op, successful send, and rejected-send handling (EmailJS SDK mocked, no real network calls).
+- `hooks/useIdleTimer.test.ts` — fires once by default, resets on activity, cleans up on unmount, and (with `{ repeat: true }`) keeps re-arming after every subsequent idle period.
+- `utils/pickAssistantMessage.test.ts` — rotates through the assistant's tour slides in order, wraps around, and interleaves a randomly picked fun fact on alternating appearances.
 - `i18n/parity.test.ts` — `ua` and `en` dictionaries have identical key structure.
 
 Intentionally not covered: OS chrome visuals (`Desktop`, `Taskbar`, `StartMenu`, `Window` rendering) — these are low-risk, high-churn presentational components; add tests only if a real regression shows up there.

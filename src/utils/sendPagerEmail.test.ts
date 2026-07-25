@@ -11,6 +11,11 @@ describe('sendPagerEmail', () => {
   beforeEach(() => {
     sendMock.mockReset();
     vi.unstubAllEnvs();
+    // Explicitly blank rather than relying on ambient absence — a local .env.local with real
+    // EmailJS credentials (for manual testing) would otherwise leak into this "unconfigured" case.
+    vi.stubEnv('VITE_EMAILJS_SERVICE_ID', '');
+    vi.stubEnv('VITE_EMAILJS_TEMPLATE_ID', '');
+    vi.stubEnv('VITE_EMAILJS_PUBLIC_KEY', '');
   });
 
   it('skips sending and returns false when EmailJS is not configured', async () => {
