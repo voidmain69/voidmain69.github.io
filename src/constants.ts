@@ -10,5 +10,7 @@ export const ASSISTANT_IDLE_MS = 15000;
 export const PAGER_LOG_LIMIT = 40;
 export const PAGER_LOG_STORAGE_KEY = 'voidos.pager.log';
 export const PAGER_MESSAGE_MAX_LENGTH = 2000;
+export const PAGER_CONTACT_STORAGE_KEY = 'voidos.pager.contact';
+export const PAGER_CONTACT_FIELD_MAX_LENGTH = 200;
 export const MINE_BOARD_SIZE = 9;
 export const MINE_COUNT = 10;
