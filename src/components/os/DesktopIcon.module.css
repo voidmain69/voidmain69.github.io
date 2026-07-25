@@ -44,6 +44,19 @@
   height: 40px;
 }
 
+/* Detailed icon art (computer/network/mine/pager/trash) is its own illustration —
+ * drop the two-tone button framing so it reads as a real desktop icon, not a swatch. */
+.glyphArt {
+  border: none;
+  box-shadow: none;
+}
+
+.glyphSvg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
 .glyphBar {
   height: 9px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.35);

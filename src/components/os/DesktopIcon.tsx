@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import type { WindowKind } from '../../types/window';
-import { ICON_ART } from '../../data/desktop-icons';
+import { DESKTOP_ICON_GLYPHS, ICON_ART } from '../../data/desktop-icons';
 import styles from './DesktopIcon.module.css';
 
 interface DesktopIconProps {
@@ -23,6 +23,7 @@ export function DesktopIcon({
   onSelect,
 }: DesktopIconProps) {
   const art = ICON_ART[iconKey];
+  const Glyph = DESKTOP_ICON_GLYPHS[iconKey];
   const isMobile = variant === 'mobile';
 
   return (
@@ -32,11 +33,17 @@ export function DesktopIcon({
       onClick={isMobile ? onOpen : onSelect}
     >
       <div
-        className={clsx(styles.glyph, isMobile && styles.glyphMobile)}
-        style={{ background: art.color1 }}
+        className={clsx(styles.glyph, isMobile && styles.glyphMobile, Glyph && styles.glyphArt)}
+        style={Glyph ? undefined : { background: art.color1 }}
       >
-        <div className={styles.glyphBar} style={{ background: art.color2 }} />
-        <div className={styles.glyphTag}>{tag}</div>
+        {Glyph ? (
+          <Glyph className={styles.glyphSvg} />
+        ) : (
+          <>
+            <div className={styles.glyphBar} style={{ background: art.color2 }} />
+            <div className={styles.glyphTag}>{tag}</div>
+          </>
+        )}
       </div>
       <div
         className={clsx(styles.label, isMobile && styles.labelMobile, selected && styles.selected)}

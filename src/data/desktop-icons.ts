@@ -1,4 +1,13 @@
+import type { ComponentType } from 'react';
 import type { WindowKind } from '../types/window';
+import {
+  ComputerGlyph,
+  MineGlyph,
+  NetworkGlyph,
+  PagerGlyph,
+  TrashGlyph,
+  type GlyphProps,
+} from '../components/os/icons/DesktopGlyphs';
 
 /** Order matches the desktop icon grid. */
 export const DESKTOP_ICON_KEYS: readonly WindowKind[] = [
@@ -32,6 +41,16 @@ export const ICON_ART: Record<WindowKind, IconArt> = {
   shut: { color1: '#c4562f', color2: '#8c3a1d' },
   mine: { color1: '#4b5a52', color2: '#222c27' },
   pager: { color1: '#8fe0b0', color2: '#2f9e5a' },
+};
+
+/** Detailed desktop-icon art for these five kinds; every other `WindowKind` keeps the plain
+ * two-tone tag glyph above. Window titlebars/taskbar/Start menu still use `ICON_ART` as-is. */
+export const DESKTOP_ICON_GLYPHS: Partial<Record<WindowKind, ComponentType<GlyphProps>>> = {
+  computer: ComputerGlyph,
+  network: NetworkGlyph,
+  mine: MineGlyph,
+  pager: PagerGlyph,
+  trash: TrashGlyph,
 };
 
 export const WINDOW_SIZES: Record<WindowKind, { w: number; h: number }> = {
