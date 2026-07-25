@@ -15,10 +15,16 @@ export interface CommandResult {
 }
 
 const OPEN_ALIASES: Record<string, string> = {
-  supplier: 'supplier',
-  'supplier-aggregation': 'supplier',
+  pim: 'pim',
+  'pim-platform': 'pim',
+  ci: 'competitor-intel',
+  'competitor-intel': 'competitor-intel',
+  competitor: 'competitor-intel',
   wiki: 'wiki',
   'product-wiki': 'wiki',
+  pcc: 'pc-configurator',
+  'pc-configurator': 'pc-configurator',
+  configurator: 'pc-configurator',
 };
 
 /** Easter egg: classic "don't run this" commands blue-screen the whole fictional OS. */
@@ -65,7 +71,7 @@ export function runCommand(raw: string, lang: Lang): CommandResult {
         '  whoami                 ' + (ua ? 'коротко про мене' : 'short bio'),
         '  skills                 ' + (ua ? 'відкрити C:\\SKILLS' : 'open C:\\SKILLS'),
         '  projects               ' + (ua ? 'список проєктів' : 'list projects'),
-        '  open <supplier|wiki>   ' + (ua ? 'відкрити проєкт' : 'open a project'),
+        '  open <pim|ci|wiki|pcc> ' + (ua ? 'відкрити проєкт' : 'open a project'),
         '  contact                ' + (ua ? 'канали звʼязку' : 'contact channels'),
         '  mine                   ' + (ua ? 'запустити Мінер.EXE' : 'launch Miner.EXE'),
         '  lang                   ' + (ua ? 'перемкнути мову' : 'switch language'),
@@ -78,7 +84,7 @@ export function runCommand(raw: string, lang: Lang): CommandResult {
   if (c === 'whoami') {
     return {
       lines: [
-        'AI Solutions Engineer / AI Solution Architect.',
+        'Vitalii Riznychenko — AI Solutions Engineer / AI Solution Architect.',
         ua
           ? 'Будую RAG і event-driven системи, які можна довести.'
           : 'I build RAG and event-driven systems you can prove.',
@@ -97,9 +103,11 @@ export function runCommand(raw: string, lang: Lang): CommandResult {
   if (c === 'projects') {
     return {
       lines: [
-        '  supplier   supplier-aggregation',
-        '  wiki       product-wiki',
-        ua ? 'Підказка: open supplier' : 'Hint: open supplier',
+        '  pim    pim-platform',
+        '  ci     competitor-intel',
+        '  wiki   product-wiki',
+        '  pcc    pc-configurator',
+        ua ? 'Підказка: open pim' : 'Hint: open pim',
         '',
       ],
     };
@@ -131,8 +139,9 @@ export function runCommand(raw: string, lang: Lang): CommandResult {
     return {
       lines: [
         '  github.com/voidmain69',
-        '  linkedin',
-        '  hello@example.com',
+        '  linkedin.com/in/vitaliy-riznychenko-340769158',
+        '  rv84@i.ua',
+        '  +38 099 132-70-37 (WhatsApp/Viber)',
         ua ? 'Запуск PAGER 98 ...' : 'Launching PAGER 98 ...',
         '',
       ],
