@@ -1,12 +1,19 @@
 import { useEffect, useRef, useState } from 'react';
 import type { BeepKind } from '../../../hooks/useBeep';
-import { PAGER_LOG_LIMIT, PAGER_LOG_STORAGE_KEY } from '../../../constants';
+import {
+  PAGER_LOG_LIMIT,
+  PAGER_LOG_STORAGE_KEY,
+  PAGER_MESSAGE_MAX_LENGTH,
+} from '../../../constants';
+import { sendPagerEmail } from '../../../utils/sendPagerEmail';
 
 export interface PagerLogEntry {
   who: 'you' | 'me' | 'sys';
   text: string;
   at: string;
 }
+
+export type PagerSendStatus = 'idle' | 'sending' | 'sent' | 'error';
 
 function loadLog(): PagerLogEntry[] {
   try {
@@ -30,17 +37,19 @@ function stamp(): string {
   return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
 }
 
-/** Client-only demo chat: log persists to localStorage, replies are scripted, nothing is sent anywhere. */
+/** Log persists to localStorage, replies are scripted, and each sent message is also relayed
+ * to email via EmailJS (client-side only — see sendPagerEmail). */
 export function usePagerLog(replies: string[], beep: (kind: BeepKind) => void) {
   const [log, setLog] = useState<PagerLogEntry[]>(() => loadLog());
   const [input, setInput] = useState('');
   const [typing, setTyping] = useState(false);
+  const [sendStatus, setSendStatus] = useState<PagerSendStatus>('idle');
   const replyTimer = useRef<number | undefined>(undefined);
 
   useEffect(() => () => window.clearTimeout(replyTimer.current), []);
 
   function send(): void {
-    const text = input.trim();
+    const text = input.trim().slice(0, PAGER_MESSAGE_MAX_LENGTH);
     if (!text) {
       beep('error');
       return;
@@ -51,6 +60,9 @@ export function usePagerLog(replies: string[], beep: (kind: BeepKind) => void) {
     setInput('');
     setTyping(true);
     beep('click');
+
+    setSendStatus('sending');
+    void sendPagerEmail(text).then((ok) => setSendStatus(ok ? 'sent' : 'error'));
 
     window.clearTimeout(replyTimer.current);
     replyTimer.current = window.setTimeout(() => {
@@ -64,5 +76,5 @@ export function usePagerLog(replies: string[], beep: (kind: BeepKind) => void) {
     }, 1400);
   }
 
-  return { log, input, setInput, typing, send };
+  return { log, input, setInput, typing, sendStatus, send };
 }

@@ -8,5 +8,6 @@ export const MOBILE_WINDOW_TOP_INSET = 110;
 export const ASSISTANT_IDLE_MS = 24000;
 export const PAGER_LOG_LIMIT = 40;
 export const PAGER_LOG_STORAGE_KEY = 'voidos.pager.log';
+export const PAGER_MESSAGE_MAX_LENGTH = 2000;
 export const MINE_BOARD_SIZE = 9;
 export const MINE_COUNT = 10;

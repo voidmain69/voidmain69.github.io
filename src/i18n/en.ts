@@ -212,7 +212,7 @@ export const en: UiStrings = {
     mail: 'Email',
     typing: 'typing...',
     placeholder: 'Your message. Ctrl+Enter to send.',
-    note: 'The log is stored in your browser only (localStorage). The real channel is email or GitHub.',
+    note: 'The log is stored in your browser (localStorage), and the message is also sent to my email.',
     statuses: {
       online: 'ONLINE · OPEN TO WORK',
       away: 'AWAY · WILL REPLY IN THE MORNING',
@@ -222,12 +222,13 @@ export const en: UiStrings = {
     me: 'VOID_69',
     sys: 'SYSTEM',
     hello:
-      'This is a demo client: there is no backend, nothing is actually sent. Write something and you will get the real contact address.',
+      'Write something — it goes straight to my email from your browser. If it is urgent, safer route: rv84@i.ua.',
     replies: [
-      'Message received. I will reply once the build finishes. Safer route: rv84@i.ua.',
+      'Message received, on its way to my email. I will reply once the build finishes.',
       'Read. If this is about work: rv84@i.ua or +38 099 132-70-37 (WhatsApp/Viber) — I am faster there.',
-      'Log saved locally. For me to actually see it, copy the text to rv84@i.ua.',
+      'Log saved locally, a copy was emailed to me.',
     ],
+    sendError: 'Could not send to email automatically — write directly: rv84@i.ua.',
     contacts: [
       { label: 'github.com/voidmain69', url: 'https://github.com/voidmain69' },
       { label: 'LinkedIn', url: 'https://www.linkedin.com/in/vitaliy-riznychenko-340769158/' },

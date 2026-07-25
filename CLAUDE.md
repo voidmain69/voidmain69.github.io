@@ -14,7 +14,7 @@ Single full-viewport React app. There are no routes — "windows" are pure clien
 
 - `store/windowManager.ts` (zustand) — window chrome ONLY: `{id, kind, key?, x, y, w, h, z, minimized, maximized}[]`, plus `open/close/closeAll/focus/minimize/toggleMaximize/patch`. This is the piece with the most test coverage — keep it free of DOM/timer access so it stays trivially testable.
 - `store/system.ts` (zustand) — OS-level chrome: `lang`, `wallpaper`, `muted`, Start menu open/sub state, selected icon, assistant visibility/mute. Only `assistantMuted` persists (to `localStorage`), matching the original design.
-- **App-specific state stays inside the app component**, not in a global store: Terminal history/input, Pager log/input/typing (Pager log persists to `localStorage`, capped at 40 entries), Minesweeper board, boot progress. Don't lift these into `windowManager` or `system` — that was tried in the original design mock (one mega class-component) and is exactly the pattern this split avoids.
+- **App-specific state stays inside the app component**, not in a global store: Terminal history/input, Pager log/input/typing (Pager log persists to `localStorage`, capped at 40 entries; each sent message is also relayed to email client-side via `utils/sendPagerEmail.ts` + EmailJS), Minesweeper board, boot progress. Don't lift these into `windowManager` or `system` — that was tried in the original design mock (one mega class-component) and is exactly the pattern this split avoids.
 - The tray clock ticks on its **own** local `setInterval` (`hooks/useClock.ts`), isolated so a once-a-second tick doesn't re-render the whole desktop tree.
 
 **Data model** (`types/project.ts`, `types/i18n.ts`):
@@ -63,7 +63,7 @@ src/
 - Add `react-router` or any routing that needs a server-side rewrite without a `404.html` fallback — this app has no routes.
 - Add a UI kit (react95, 98.css, etc.) — the visuals are a bespoke skin driven by `styles/tokens.css`, not a stock Win95 theme.
 - Add `howler` or audio files — sound is synthesized WebAudio square waves in `hooks/useBeep.ts`.
-- Wire a real email/form service into Pager without being asked — it's an intentional client-only demo (see Security).
+- Add a server/API to receive Pager messages — delivery goes straight from the client to EmailJS (`utils/sendPagerEmail.ts`), no backend involved (see Security).
 
 ## 3. Tech Stack (pinned)
 
@@ -75,6 +75,7 @@ src/
 - ESLint 9 flat config (`eslint.config.js`) + `typescript-eslint` + `prettier`
 - `husky` + `lint-staged`
 - `clsx` for conditional class names
+- `@emailjs/browser` — client-side relay for Pager messages (see Security)
 
 Don't bump major versions casually — if a dependency needs a major upgrade, do it as its own PR with the changelog reviewed, not bundled into a feature change.
 
@@ -87,9 +88,11 @@ Don't bump major versions casually — if a dependency needs a major upgrade, do
 
 ## 5. Security
 
-- No backend exists, so there are no server secrets to leak. Pager is an intentional client-only demo (localStorage log + scripted replies + `mailto:` fallback) — it does not send data anywhere.
-- If a real email/form service (EmailJS, Formspree, etc.) is added later: its **public** key can live in the client bundle, but **no private/secret key ever goes in `.env`** — Vite inlines every `import.meta.env.VITE_*` value into the built JS, so anything placed there is public.
-- Sanitize any future user input (e.g. if Pager's message box ever gets wired to a real transport) before it's sent or rendered.
+- No backend exists, so there are no server secrets to leak. Pager persists a local chat log (`localStorage`) with scripted replies, and separately relays each sent message straight to email via EmailJS (`utils/sendPagerEmail.ts`) — client-only, no server in between.
+- EmailJS config (`VITE_EMAILJS_SERVICE_ID`/`VITE_EMAILJS_TEMPLATE_ID`/`VITE_EMAILJS_PUBLIC_KEY`, see `.env.example`) are EmailJS **public** identifiers, not secrets — Vite inlines every `import.meta.env.VITE_*` value into the built JS, so anything placed there is public regardless. Never put a private/secret key in `.env`.
+- The real defense against quota abuse (someone spamming `emailjs.send` from devtools since the public key ships in the bundle) is the **Allowed origins** allowlist in the EmailJS dashboard (restrict to `voidmain69.github.io` + localhost), not secrecy of the IDs. If abuse becomes a problem, add EmailJS's reCAPTCHA/hCaptcha template option rather than rolling custom rate-limiting.
+- `sendPagerEmail` fails closed: if any of the three env vars is missing it returns `false` without calling EmailJS, and a rejected/failed send is caught and surfaced to the user via `pager.sendError` — a misconfigured or down EmailJS account must never throw and break the chat UI.
+- User input from Pager's textarea is capped at `PAGER_MESSAGE_MAX_LENGTH` before it's stored or sent; it's passed to EmailJS as a template variable (not rendered as HTML anywhere), so there's no injection surface beyond what the EmailJS template itself does with it.
 - Keep Dependabot and `pnpm audit` enabled on this repo.
 
 ## 6. Infrastructure
@@ -127,6 +130,7 @@ Covered (Vitest + Testing Library where components are involved):
 - `store/windowGeometry.test.ts` — drag-position clamping.
 - `components/apps/Minesweeper/board.test.ts` — first-click safety, flood fill, win/loss conditions, flag toggling.
 - `components/apps/Terminal/commands.test.ts` — every terminal command plus the unknown-command fallback.
+- `utils/sendPagerEmail.test.ts` — missing-config no-op, successful send, and rejected-send handling (EmailJS SDK mocked, no real network calls).
 - `i18n/parity.test.ts` — `ua` and `en` dictionaries have identical key structure.
 
 Intentionally not covered: OS chrome visuals (`Desktop`, `Taskbar`, `StartMenu`, `Window` rendering) — these are low-risk, high-churn presentational components; add tests only if a real regression shows up there.
